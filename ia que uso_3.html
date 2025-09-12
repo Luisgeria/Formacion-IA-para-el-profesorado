@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caja de Herramientas de IA para Educadores</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Estilos generales */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #f4f7f9 0%, #e6f0f2 100%);
+            color: #333;
+            padding: 0;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        /* Contenedor principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Cabecera */
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%);
+            color: #ffffff;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.05)"/></svg>');
+            background-size: cover;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.8em;
+            font-weight: 700;
+            position: relative;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            margin-top: 15px;
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Navegación por categorías */
+        .category-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            gap: 10px;
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 50px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .category-nav a {
+            text-decoration: none;
+            background-color: #e0f2f1;
+            color: #00796b;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .category-nav a i {
+            margin-right: 8px;
+        }
+        
+        .category-nav a:hover {
+            background-color: #1abc9c;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Estilo de las secciones de categorías */
+        .category-section {
+            margin-bottom: 50px;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .category-section h2 {
+            font-size: 2em;
+            color: #34495e;
+            border-bottom: 3px solid #1abc9c;
+            padding-bottom: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .category-section h2 i {
+            margin-right: 12px;
+            background: #1abc9c;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Grid para las tarjetas de aplicaciones */
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        /* Estilo de cada tarjeta de aplicación */
+        .app-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fbfd 100%);
+            border-radius: 12px;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.08);
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #eaeaea;
+            height: 100%;
+        }
+        
+        .app-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #1abc9c, #3498db);
+        }
+        
+        .app-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+        }
+        
+        .app-card h3 {
+            font-size: 1.4em;
+            color: #2c3e50;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .app-card h3 i {
+            margin-right: 10px;
+            color: #1abc9c;
+            font-size: 1.2em;
+        }
+        
+        .app-card p {
+            flex-grow: 1;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        
+        .app-card a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .app-card a:hover {
+            background: linear-gradient(135deg, #16a085 0%, #1abc9c 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(26, 188, 156, 0.3);
+        }
+        
+        .app-card a i {
+            margin-right: 8px;
+        }
+
+        /* Separador */
+        hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #1abc9c, transparent);
+            margin: 40px 0;
+        }
+
+        /* Pie de página */
+        .footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 50px;
+            color: #7f8c8d;
+            border-top: 1px solid #e0e0e0;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.05);
+        }
+        
+        /* Botón de volver arriba */
+        .back-to-top {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: linear-gradient(135deg, #1abc9c 0%, #3498db 100%);
+            color: white;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Estilo para secciones con pocas aplicaciones */
+        .small-section .apps-grid {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 400px));
+            justify-content: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .apps-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 30px 15px;
+                border-radius: 12px;
+            }
+            
+            .header h1 {
+                font-size: 2.2em;
+            }
+            
+            .header p {
+                font-size: 1em;
+            }
+            
+            .apps-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 18px;
+            }
+            
+            .category-section {
+                padding: 20px;
+            }
+            
+            .category-section h2 {
+                font-size: 1.7em;
+            }
+            
+            .category-section h2 i {
+                width: 40px;
+                height: 40px;
+                font-size: 0.9em;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .category-nav {
+                padding: 12px;
+                border-radius: 15px;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                justify-content: flex-start;
+            }
+            
+            .category-nav a {
+                white-space: nowrap;
+                font-size: 0.9em;
+                padding: 8px 15px;
+            }
+
+            .small-section .apps-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.9em;
+            }
+            
+            .apps-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-section h2 {
+                font-size: 1.5em;
+            }
+            
+            .app-card {
+                padding: 20px;
+            }
+            
+            .app-card h3 {
+                font-size: 1.3em;
+            }
+            
+            .category-nav {
+                border-radius: 12px;
+            }
+            
+            .category-nav a {
+                padding: 8px 12px;
+                font-size: 0.85em;
+            }
+            
+            .back-to-top {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="header">
+            <h1>Caja de Herramientas de IA para Educadores</h1>
+            <p>Una selección de aplicaciones de Inteligencia Artificial prácticas y útiles para inspirar en el aula.</p>
+        </header>
+
+        <nav class="category-nav">
+            <a href="#chatbots"><i class="fas fa-comments"></i> Chatbots</a>
+            <a href="#oficina"><i class="fas fa-briefcase"></i> Oficina</a>
+            <a href="#audio"><i class="fas fa-microphone-alt"></i> Audio</a>
+            <a href="#media"><i class="fas fa-photo-video"></i> Multimedia</a>
+            <a href="#productividad"><i class="fas fa-rocket"></i> Productividad</a>
+            <a href="#diseno"><i class="fas fa-paint-brush"></i> Diseño</a>
+            <a href="#edicion"><i class="fas fa-film"></i> Edición</a>
+        </nav>
+
+        <main>
+            <section id="chatbots" class="category-section">
+                <h2><i class="fas fa-comments"></i> Chatbots y Asistentes IA</h2>
+                <div class="apps-grid">
+                    <div class="app-card">
+                        <h3><i class="fas fa-robot"></i> ChatGPT</h3>
+                        <p>Asistente IA conversacional para múltiples tareas, desde escritura hasta programación.</p>
+                        <a href="https://chat.openai.com" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar ChatGPT</a>
+                    </div>
+                    <div class="app-card">
+                        <h3><i class="fas fa-robot"></i> Perplexity</h3>
+                        <p>Motor de búsqueda con IA que proporciona respuestas con citación de fuentes.</p>
+                        <a href="https://www.perplexity.ai" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar Perplexity</a>
+                    </div>
+                    <div class="app-card">
+                        <h3><i class="fas fa-robot"></i> Gemini</h3>
+                        <p>Asistente IA de Google con capacidades multimodales (texto, imagen, código).</p>
+                        <a href="https://gemini.google.com" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar Gemini</a>
+                    </div>
+                    <div class="app-card">
+                        <h3><i class="fas fa-robot"></i> Claude</h3>
+                        <p>Asistente IA con capacidad de análisis profundo y manejo de documentos extensos.</p>
+                        <a href="https://claude.ai" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar Claude</a>
+                    </div>
+                    <div class="app-card">
+                        <h3><i class="fas fa-robot"></i> Grok</h3>
+                        <p>Asistente IA con personalidad y sentido del humor desarrollado por xAI.</p>
+                        <a href="https://grok.com/" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar Grok</a>
+                    </div>
+                    <div class="app-card">
+                        <h3><i class="fas fa-robot"></i> DeepSeek Chat</h3>
+                        <p>Potente chatbot con capacidades avanzadas de comprensión y generación de texto.</p>
+                        <a href="https://chat.deepseek.com/" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar DeepSeek</a>
+                    </div>
+                    <div class="app-card">
+                        <h3><i class="fas fa-robot"></i> Qwen Chat</h3>
+                        <p>Asistente conversacional desarrollado por Alibaba Group.</p>
+                        <a href="https://chat.qwen.ai/" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar Qwen</a>
+                    </div>
+                </div>
+            </section>
+            
+            <hr>
+
+            <section id="oficina" class="category-section">
+                <h2><i class="fas fa-briefcase"></i> Suite Office y Productividad</h2>
+                <div class="apps-grid">
+                    <div class="app-card">
+                        <h3><i class="fas fa-desktop"></i> M365 Copilot</h3>
+                        <p>Asistente de IA integrado en Microsoft 365 para mejorar la productividad.</p>
+                        <a href="https://copilot.microsoft.com/chats/E8ikLednr8FUdb3ssb8xm" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar M365 Copilot</a>
+                    </div>
+                    <div class="app-card">
+                        <h3><i class="fas fa-sticky-note"></i> Notion</h3>
+                        <p>Herramienta de productividad con IA para gestión de proyectos y notas.</p>
+                        <a href="https://www.notion.com" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar Notion</a>
+                    </div>
+                </div>
+            </section>
+
+            <hr>
+
+            <section id="audio" class="category-section">
+                <h2><i class="fas fa-microphone-alt"></i> Audio y Voz</h2>
+                <div class="apps-grid">
+                    <div class="app-card">
+                        <h3><i class="fas fa-podcast"></i> Adobe Podcast</h3>
+                        <p>Mejora la calidad del audio y transcribe podcasts automáticamente.</p>
+                        <a href="https://podcast.adobe.com" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar Adobe Podcast</a>
+                    </div>
+                    <div class="app-card">
+                        <h3><i class="fas fa-volume-up"></i> ElevenLabs</h3>
+                        <p>Generación de voz realista en múltiples idiomas y clonación de voz.</p>
+                        <a href="https://elevenlabs.io" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar ElevenLabs</a>
+                    </div>
+                    <div class="app-card">
+                        <h3><i class="fas fa-music"></i> Suno</h3>
+                        <p>Crea música original con IA, incluyendo letra y melodía.</p>
+                        <a href="https://www.suno.ai" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar Suno</a>
+                    </div>
+                    <div class="app-card">
+                        <h3><i class="fas fa-file-alt"></i> Turboscribe</h3>
+                        <p>Transcripción automática de audio a texto con alta precisión.</p>
+                        <a href="https://turboscribe.ai" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar Turboscribe</a>
+                    </div>
+                </div>
+            </section>
+
+            <hr>
+
+            <section id="media" class="category-section">
+                <h2><i class="fas fa-photo-video"></i> Imagen y Video</h2>
+                <div class="apps-grid">
+                    <div class="app-card">
+                        <h3><i class="fas fa-paint-brush"></i> Leonardo</h3>
+                        <p>Generación de imágenes artísticas con IA.</p>
+                        <a href="https://leonardo.ai" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar Leonardo</a>
+                    </div>
+                    <div class="app-card">
+                        <h3><i class="fas fa-video"></i> InVideo</h3>
+                        <p>Creación y edición de videos profesionales con IA.</p>
+                        <a href="https://invideo.io" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar InVideo</a>
+                    </div>
+                    <div class="app-card">
+                        <h3><i class="fas fa-film"></i> Heygen</h3>
+                        <p>Crea videos con presentadores virtuales generados por IA.</p>
+                        <a href="https://www.heygen.com" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar Heygen</a>
+                    </div>
+                    <div class="app-card">
+                        <h3><i class="fas fa-images"></i> Ideogram</h3>
+                        <p>Genera imágenes artísticas con texto integrado.</p>
+                        <a href="https://ideogram.ai" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar Ideogram</a>
+                    </div>
+                    <div class="app-card">
+                        <h3><i class="fas fa-palette"></i> SeaArt</h3>
+                        <p>Plataforma de arte con IA para crear imágenes digitales.</p>
+                        <a href="https://www.seaart.ai" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar SeaArt</a>
+                    </div>
+                </div>
+            </section>
+
+            <hr>
+
+            <section id="productividad" class="category-section">
+                <h2><i class="fas fa-rocket"></i> Productividad y Organización</h2>
+                <div class="apps-grid">
+                    <div class="app-card">
+                        <h3><i class="fas fa-puzzle-piece"></i> Sider.ai</h3>
+                        <p>Extensión de navegador para asistencia con IA en cualquier página web.</p>
+                        <a href="https://www.sider.ai" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar Sider.ai</a>
+                    </div>
+                    <div class="app-card">
+                        <h3><i class="fas fa-sticky-note"></i> Napkin</h3>
+                        <p>Organización y conexión de ideas con ayuda de IA.</p>
+                        <a href="https://napkin.ai" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar Napkin</a>
+                    </div>
+                    <div class="app-card">
+                        <h3><i class="fas fa-search"></i> Otio.ai</h3>
+                        <p>Herramienta de investigación y organización de información.</p>
+                        <a href="https://otio.ai" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar Otio.ai</a>
+                    </div>
+                    <div class="app-card">
+                        <h3><i class="fas fa-book"></i> Notebook LM</h3>
+                        <p>Plataforma de aprendizaje automático para crear y gestionar modelos de lenguaje.</p>
+                        <a href="https://notebooklm.google.com/" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar Notebook LM</a>
+                    </div>
+                </div>
+            </section>
+            
+            <hr>
+
+            <section id="diseno" class="category-section">
+                <h2><i class="fas fa-paint-brush"></i> Diseño y Presentaciones</h2>
+                <div class="apps-grid">
+                    <div class="app-card">
+                        <h3><i class="fas fa-presentation-screen"></i> Gamma</h3>
+                        <p>Crea presentaciones profesionales con IA.</p>
+                        <a href="https://gamma.app" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar Gamma</a>
+                    </div>
+                    <div class="app-card">
+                        <h3><i class="fas fa-palette"></i> Looka</h3>
+                        <p>Diseño de logos y branding con IA.</p>
+                        <a href="https://looka.com" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar Looka</a>
+                    </div>
+                    <div class="app-card">
+                        <h3><i class="fas fa-cubes"></i> AI Studio (Google)</h3>
+                        <p>Suite de herramientas de IA de Google para creadores.</p>
+                        <a href="https://aistudio.google.com" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar AI Studio</a>
+                    </div>
+                    <div class="app-card">
+                        <h3><i class="fas fa-paint-roller"></i> Canva</h3>
+                        <p>Plataforma de diseño gráfico con herramientas de IA integradas.</p>
+                        <a href="https://www.canva.com" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar Canva</a>
+                    </div>
+                </div>
+            </section>
+
+            <hr>
+
+            <section id="edicion" class="category-section small-section">
+                <h2><i class="fas fa-film"></i> Edición de Video</h2>
+                <div class="apps-grid">
+                    <div class="app-card">
+                        <h3><i class="fas fa-video"></i> CapCut</h3>
+                        <p>Editor de video con funciones de IA para efectos y edición automática.</p>
+                        <a href="https://www.capcut.com" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar CapCut</a>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+        
+        <footer class="footer">
+            <p>Recursos de IA seleccionados para la formación de profesorado. Elaborado por Luis Ángel González. De uso libre.</p>
+        </footer>
+
+        <a href="#" class="back-to-top">
+            <i class="fas fa-arrow-up"></i>
+        </a>
+
+    </div>
+
+    <script>
+        // Funcionalidad para el botón "volver arriba"
+        window.addEventListener('scroll', function() {
+            var backToTop = document.querySelector('.back-to-top');
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+        
+        // Smooth scroll para los enlaces de navegación
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 20,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
